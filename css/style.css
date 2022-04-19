@@ -1,0 +1,41 @@
+body {
+  background-color: black;
+}
+
+.content {
+  width: 1024px;
+  height: 863px;
+  margin: auto;
+  background: url("../img/board.jpg") no-repeat;
+}
+.content table {
+  position: relative;
+  left: 172px;
+  top: 98px;
+  border-spacing: 0px;
+}
+.content table td {
+  width: 94px;
+  height: 94px;
+}
+.content .hit {
+  background-image: url(../img/ship.png);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.content .miss {
+  background-image: url(../img/miss.png);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.content .sunk {
+  background-color: rgb(42, 74, 19);
+}
+.content__messageArea {
+  font-size: 32px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color: rgb(83, 175, 19);
+  box-shadow: 0 0 10px rgba(11, 35, 19, 0.5);
+}
