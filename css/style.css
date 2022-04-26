@@ -4,19 +4,18 @@ body {
 
 .content {
   width: 1024px;
-  height: 863px;
-  margin: auto;
-  background: url("../img/board.jpg") no-repeat;
+  margin: 0 auto;
 }
 .content table {
   position: relative;
-  left: 172px;
-  top: 98px;
   border-spacing: 0px;
+  margin: 0 auto;
 }
 .content table td {
   width: 94px;
   height: 94px;
+  border-style: dashed;
+  border-color: aqua;
 }
 .content .hit {
   background-image: url(../img/ship.png);
@@ -32,10 +31,20 @@ body {
   background-color: rgb(42, 74, 19);
 }
 .content__messageArea {
+  max-width: 25%;
   font-size: 32px;
   position: absolute;
   top: 0px;
   left: 0px;
+  color: rgb(83, 175, 19);
+  box-shadow: 0 0 10px rgba(11, 35, 19, 0.5);
+}
+.content__messageCount {
+  max-width: 25%;
+  font-size: 32px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
   color: rgb(83, 175, 19);
   box-shadow: 0 0 10px rgba(11, 35, 19, 0.5);
 }

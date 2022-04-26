@@ -15,6 +15,11 @@ let view = {
     displaySunk : function(sunk){
         let step = document.getElementById(sunk);
         step.setAttribute("class", "sunk");
+    },
+    displayCount : function(ship, sunk){
+        let message = document.getElementById('count');
+        let str = ("Ships above the water: " + (ship-sunk) + " Ships under the water: " + sunk);
+        message.innerHTML = str;    
     }
 }
 //Логика игры
@@ -90,12 +95,12 @@ let model = {
         }
     },
     generateShipLocations: function(){
-        let location;
+        let location = [];
         for(let i=0; i<this.numShips;i++){
             do{
                 location = this.generateShip();
             }while(this.collision(location));
-            this.ships[i].location = location;
+        this.ships[i].location = location;
         }
     },
     generateShip: function(ship){
@@ -121,17 +126,16 @@ let model = {
         return newShipLocation;
     },
     collision: function(locations){
-        let arr = [];
+
         for(let i = 0; i < locations.length; i++){
-            let ships = this.ships[i];
-            let ship = ships.location[i];
-            for(let j=0; j < ship; j++){
+            let ship = []
+            ship = this.ships[i].location;
+            for(let j=0; j < ship.length; j++){
                 locations.forEach(element => {
-                        if(ship[j]==element) return false;
+                        if(ship[j]===element) return false;
                     else return true;
                 });
             }
-            
         }
     }
 
@@ -146,6 +150,7 @@ controller = {
         if(guess){
             this.guesses++;
             let hit = model.fire(guess);
+            view.displayCount(model.numShips,model.shipsSunk);
             if(hit && model.shipsSunk === model.numShips){
                 let arr = document.querySelectorAll('td')
                 for(let i=0; i< arr.length; i++){
