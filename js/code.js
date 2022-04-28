@@ -2,6 +2,7 @@
 let view = {
     displayMessage : function(msg){
         let message = document.getElementById('messageArea');
+        message.setAttribute("class","content__messageArea");
         message.innerHTML = msg;    
     },
     displayHit : function(hit){
@@ -94,16 +95,20 @@ let model = {
             }
         }
     },
+    //Создание кораблей
     generateShipLocations: function(){
-        let location = [];
         for(let i=0; i<this.numShips;i++){
-            do{
-                location = this.generateShip();
-            }while(this.collision(location));
-        this.ships[i].location = location;
+            this.ships[i].location = this.generateShip();
+        }
+        for(i=0; i<this.numShips;i++){
+            let ship = this.generateShip();
+            if(this.collision(ship))
+            this.ships[i].location = ship;
+            console.log(this.ships[i].location)    
         }
     },
-    generateShip: function(ship){
+    //Генерация позиций кораблей
+    generateShip: function(){
         let direction = Math.floor(Math.random() * 2);
         let row, col;
         let newShipLocation = [];
@@ -125,18 +130,16 @@ let model = {
          }
         return newShipLocation;
     },
+    //Проверка на правильное расположение
     collision: function(locations){
-
-        for(let i = 0; i < locations.length; i++){
-            let ship = []
-            ship = this.ships[i].location;
-            for(let j=0; j < ship.length; j++){
-                locations.forEach(element => {
-                        if(ship[j]===element) return false;
-                    else return true;
-                });
+        for(let i = 0; i < this.shipLength; i++){
+            for(let j=0; j < this.shipLength; j++){
+                for(let k=0; k< this.shipLength; k++){
+                    if(locations[k]===this.ships[i].location[j]) return false;
+                }
             }
         }
+        return true;
     }
 
 }
@@ -144,7 +147,7 @@ let model = {
 controller = {
     guesses: 0,
     listenCell: function(evt) {
-        controller.proccesGuess(evt.target. getAttribute('id'));
+        controller.proccesGuess(evt.target.getAttribute('id'));
     },
     proccesGuess: function(guess){
         if(guess){

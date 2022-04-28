@@ -3,7 +3,7 @@ body{
     background-color: black;
 }
 .content{
-    width: 1024px;
+    max-width: 100%;
     margin: 0 auto;
     table{
         
@@ -27,6 +27,7 @@ body{
         background-image: url(../img/miss.png);
         background-position: center;
         background-repeat: no-repeat;
+        max-width: 100%;
     }
     .sunk{
         background-color: rgb(42, 74, 19);
@@ -35,18 +36,24 @@ body{
         max-width: 25%;
         font-size: 32px;
         position: absolute;     
-        top: 0px;
-        left: 0px;
+        top: 13%;
+        left: 5px;
         color: rgb(83, 175, 19);
-        box-shadow: 0 0 10px rgba(11, 35, 19, 0.5);
+        border-radius: 30px;
+        border-style: inset;
+        border-color: aquamarine;
+        padding: 7px;
     }
     &__messageCount{
         max-width: 25%;
         font-size: 32px;
         position: absolute;     
-        top: 0px;
-        right: 0px;
+        top: 10%;
+        right: 0;
         color: rgb(83, 175, 19);
         box-shadow: 0 0 10px rgba(11, 35, 19, 0.5); 
+        border-style: inset;
+        border-color: aquamarine;
+        padding: 5px;
     }
 }
