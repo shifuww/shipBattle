@@ -30,6 +30,7 @@ let model = {
     shipLength: [1,1,1,1,2,2,2,3,3,4],
     shipsSunk: 0,
     lastFire: 0,
+    numGuess: 40,
     ships:
      [
         {location : ["0"], hits : [""]},
@@ -168,14 +169,25 @@ controller = {
             let hit = model.fire(guess);
             view.displayCount(model.numShips,model.shipsSunk);
             if(hit && model.shipsSunk === model.numShips){
-                let arr = document.querySelectorAll('td')
+                let arr = document.querySelectorAll('td');
                 for(let i=0; i< arr.length; i++){
                         arr[i].removeEventListener('click', this.listenCell);
                     }  
+                    setTimeout(() =>
+                    {
+                        view.displayMessage("You sank all my battleships, in " + this.guesses + " guesses");
+                        alert("You win, congratulation!!!!")
+                    },1000)
+            }
+            if(this.guesses === model.numGuess){
+                let arr = document.querySelectorAll('td');
+                for(let i=0; i< arr.length; i++){
+                    arr[i].removeEventListener('click', this.listenCell);
+                }  
                 setTimeout(() =>
                 {
-                    view.displayMessage("You sank all my battleships, in " + this.guesses + " guesses");
-                    alert("You win, congratulation!!!!")
+                    view.displayMessage("you spent all your efforts");
+                    alert("You lose(((")
                 },1000)
             }
         }
