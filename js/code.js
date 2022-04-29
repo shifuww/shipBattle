@@ -26,15 +26,22 @@ let view = {
 //Логика игры
 let model = {
     boardSize: 7,
-    numShips: 3,
-    shipLength: 3,
+    numShips: 10,
+    shipLength: [1,1,1,1,2,2,2,3,3,4],
     shipsSunk: 0,
     lastFire: 0,
     ships:
      [
+        {location : ["0"], hits : [""]},
+        {location : ["0"], hits : [""]},
+        {location : ["0"], hits : [""]},
+        {location : ["0"], hits : [""]},
+        {location : ["0","0"], hits : ["",""]},
+        {location : ["0","0"], hits : ["",""]},
+        {location : ["0","0"], hits : ["",""]},
         {location : ["0","0","0"], hits : ["","",""]},
         {location : ["0","0","0"], hits : ["","",""]},
-        {location : ["0","0","0"], hits : ["","",""]}
+        {location : ["0","0","0","0"], hits : ["","","",""]}
     ],
     fire: function(guess)
     { 
@@ -51,14 +58,14 @@ let model = {
                     {
                         ship.hits[i] = "hit";
                         view.displayHit(guess);
-                        view.displayMessage("You hit");
+                        view.displayMessage("You hitted");
                         if(this.isSunk(ship))
                         {
                             for(let i=0; i<location.length;i++){
                                 view.displaySunk(location[i]);
                             }
                             this.shipsSunk++;
-                            view.displayMessage("You sunk my ship");
+                            view.displayMessage("You sunked my ship");
                         }
                         return true;
                     }
@@ -72,7 +79,7 @@ let model = {
         }
         if(this.lastFire === 0 || guess !== this.lastFire){
             view.displayMiss(guess);
-            view.displayMessage("You miss");
+            view.displayMessage("You missed");
             this.lastFire = guess;
             return false;
         }
@@ -83,10 +90,10 @@ let model = {
     
     },
     isSunk: function(sunk){
-        for(let i=0; i<this.shipLength;i++){
+        for(let i=0; i<this.numShips;i++){
             if(sunk.hits[i] !== "hit")
                 return false;
-            else {
+            if(sunk.hits[i] === "hit") {
                 for(let i=0; i<sunk.hits.length;i++){
                     if(sunk.hits[i] !== "hit")
                     return false;
@@ -97,30 +104,36 @@ let model = {
     },
     //Создание кораблей
     generateShipLocations: function(){
-        for(let i=0; i<this.numShips;i++){
-            this.ships[i].location = this.generateShip();
+        outter : for(let i=0; i<this.numShips;i++){
+            this.ships[i].location = this.generateShip(this.shipLength[i]);
+            let step = this.shipLength[i];
+            inner : for(j=0; i<this.numShips;j++){
+                let ship = this.generateShip(step);
+                if(this.collision(ship)){
+                    this.ships[i].location = ship;
+                    continue outter;
+                }
+            }    
         }
-        for(i=0; i<this.numShips;i++){
-            let ship = this.generateShip();
-            if(this.collision(ship))
-            this.ships[i].location = ship;
-            console.log(this.ships[i].location)    
+        for(let k=0; k<this.numShips;k++){
+            console.log(this.ships[k].location)
         }
     },
     //Генерация позиций кораблей
-    generateShip: function(){
+    generateShip: function(length){
         let direction = Math.floor(Math.random() * 2);
         let row, col;
         let newShipLocation = [];
         if(direction === 1){
             row = Math.floor(Math.random() * this.boardSize);
-            col = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+            col = Math.floor(Math.random() * (this.boardSize - length));
          }
          else{
-            row = Math.floor(Math.random() * (this.boardSize - this.shipLength));
+            row = Math.floor(Math.random() * (this.boardSize - length));
             col = Math.floor(Math.random() * this.boardSize);
          }
-         for (var i = 0; i < this.shipLength; i++){
+
+         for (let i = 0; i < length; i++){
              if(direction === 1){
                  newShipLocation.push(row + "" + (col + i));
              }
@@ -132,10 +145,10 @@ let model = {
     },
     //Проверка на правильное расположение
     collision: function(locations){
-        for(let i = 0; i < this.shipLength; i++){
-            for(let j=0; j < this.shipLength; j++){
-                for(let k=0; k< this.shipLength; k++){
-                    if(locations[k]===this.ships[i].location[j]) return false;
+        for(let i = 0; i < this.numShips; i++){
+            for(let j=0; j < this.numShips; j++){
+                for(let k=0; k <  locations.length; k++){
+                    if(this.ships[i].location[j] === locations[k]) return false;
                 }
             }
         }
