@@ -17,9 +17,9 @@ let view = {
         let step = document.getElementById(sunk);
         step.setAttribute("class", "sunk");
     },
-    displayCount : function(ship, sunk){
+    displayCount : function(ship, sunk, guesses){
         let message = document.getElementById('count');
-        let str = ("Ships above the water: " + (ship-sunk) + " Ships under the water: " + sunk);
+        let str = ("Ships above the water: " + (ship-sunk) + " Ships under the water: " + sunk +" Guesses:" + (guesses-controller.guesses));
         message.innerHTML = str;    
     }
 }
@@ -30,7 +30,7 @@ let model = {
     shipLength: [1,1,1,1,2,2,2,3,3,4],
     shipsSunk: 0,
     lastFire: 0,
-    numGuess: 40,
+    numGuess: 45,
     ships:
      [
         {location : ["0"], hits : [""]},
@@ -167,7 +167,7 @@ controller = {
         if(guess){
             this.guesses++;
             let hit = model.fire(guess);
-            view.displayCount(model.numShips,model.shipsSunk);
+            view.displayCount(model.numShips,model.shipsSunk,model.numGuess);
             if(hit && model.shipsSunk === model.numShips){
                 let arr = document.querySelectorAll('td');
                 for(let i=0; i< arr.length; i++){
