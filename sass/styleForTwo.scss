@@ -1,0 +1,46 @@
+body{
+    background-color: black;
+}
+.content{
+    margin: 0 auto;
+    .first{
+        margin-top: 20px;
+        position: relative;
+        border-spacing: 0px;
+        td{
+            width: 94px;     
+            height: 94px;
+            border-style: dashed;
+            border-color: aqua;
+        }
+
+    }
+    .second{
+        
+        position: relative;
+        margin-top: 50px;
+        border-spacing: 0px;
+        left: 800px;
+        td{
+            width: 94px;     
+            height: 94px;
+            border-style: dashed;
+            border-color: aqua;
+        }
+
+    }
+}
+.hit{
+        background-image: url(../img/ship.png);
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .miss{
+        background-image: url(../img/miss.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        max-width: 100%;
+    }
+    .sunk{
+        background-color: rgb(42, 74, 19);
+    }
