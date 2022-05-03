@@ -19,7 +19,7 @@ let view = {
 }
 let model = {
     boardSize: 7,
-    step: 1,
+    step: 0,
     numShips: 10,
     shipLength: [1,1,1,1,2,2,2,3,3,4],
     shipsSunkFirst: 0,
@@ -53,10 +53,10 @@ let model = {
        {location : ["0","0","0","0"], hits : ["","","",""]}
    ],
    fire: function(guess){
-       let step = this.step%2;
-        if(step === 0)
+       console.log(this.step)
+        if(this.step === 0)
         {
-            if(guess => "66" ){
+            if(guess < "67" ){
                 for(let i=0;i<this.numShips;i++){
                     let shipFirst = this.shipsFirst[i].location;
                     let hitsFirst = this.shipsFirst[i].hits;
@@ -78,7 +78,6 @@ let model = {
                             view.displayMiss(guess);
                             view.displayMessage("You missed");
                             this.lastFireFirst = guess;
-                            console.log(this.step)
                             this.step++;
                             return false;
                         }
@@ -95,9 +94,9 @@ let model = {
                 return false;  
             }
         }
-        if(step !== 0)
+        if(this.step === 1)
         {
-            if(guess <= "67" ){
+            if(guess > "66" ){
                 for(let i=0;i<this.numShips;i++){
                     let shipSecond = this.shipsSecond[i].location;
                     let hitsSecond = this.shipsSecond[i].hits;
@@ -105,7 +104,7 @@ let model = {
                         if(shipSecond[j]==guess){
                             if(hitsSecond[j] !== "hit"){
                                 view.displayHit(guess);
-                                this.step++;
+                                this.step--;
                                 return true;
                             }
                             else{
@@ -116,7 +115,7 @@ let model = {
                         if(this.lastFireSecond === 0 || guess !== this.lastFireSecond){
                             view.displayMiss(guess);
                             view.displayMessage("You missed");
-                            this.step++;
+                            this.step--;
                             this.lastFireSecond = guess;
                             return false;
                         }
@@ -132,7 +131,7 @@ let model = {
                 return false;
             }
         }
- }
+    }
 }
 let controller = {
     listenCell: function(evt) {
